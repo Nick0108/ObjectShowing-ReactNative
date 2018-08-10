@@ -133,39 +133,7 @@ class CusormWebView extends Component{
           injectedJavaScript={BeforeLoadWebView}
           style={{width:'100%',height:'100%'}}/>
         </View>
-        {/* <View style={{bottom:'40%',flexDirection:'row', direction:'ltr',justifyContent:'space-between'}}>
-          <TouchableHighlight 
-          onPress={this.onPressLearnMore}
-          style={styles.radiasTouchButton}>
-            <View>
-              <Text style={styles.touchButtonText}>←</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight 
-          onPress={this.onPressLearnMore}
-          style={styles.radiasTouchButton}>
-            <View>
-              <Text style={styles.touchButtonText}>→</Text>
-            </View>
-          </TouchableHighlight>
-        </View> */}
       </View>
     );
   }
 }
-
-// class CustomWebview extends WebView{
-//   state = {curURLIndex:0}
-//   props = {UrlStrArray:[
-//       'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/',
-//       'https://gz.kangyun3d.com/models/models/75/index.html',
-//       'https://gz.kangyun3d.com/models/models/93/index.html',
-//       'https://gz.kangyun3d.com/models/models/133/index.html',
-//       'https://gz.kangyun3d.com/models/models/57/index.html',
-//       'https://gz.kangyun3d.com/models/models/dinosaur1/index.html',
-//     ],
-//     curURLIndex:0}
-//     <WebView source={{uri: 'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}}/>
-// }
-
-//AppRegistry.registerComponent('KangYunExhibit', () => Swiper);
