@@ -59,64 +59,58 @@ export default class App extends Component/*<Props>*/ {
       <SwiperView />
     );
   }
-  onPressLearnMore = ()=>{
-    alert('ok');
-  }
 }
-
-
-
+var webviewRefs = [];
 class SwiperView extends Component{
   constructor(props){
     super(props);
     this.state = {
-
+      
     }
   }
   render(){
+    onPressButton = (index)=>{
+      // var str = '';
+      // for(var i=0;i<webviewRefs.length;i++){
+      //   str += typeof(webviewRefs[i])+",";
+      // }
+      // alert(str);
+      // webviewRefs[index].injectJavaScript();
+      //(func)=>{this.myWebview.injectJavaScript(func);}
+    }
     return(
-      <Swiper style={styles.wrapper} showsButtons={true} scrollEnabled={false} showsPagination={false}>
+      <Swiper style={styles.wrapper} showsButtons={true} scrollEnabled={false} showsPagination={false} onIndexChanged={onPressButton}>
         <View style={styles.slide}>
           <CusormWebView showURL={'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}/>
         </View>
         <View style={styles.slide}>
           <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/2072ffd0baee400794af828092aac49a/index.html'}/>
         </View>
-        {/* <View style={styles.slide}>
-          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/14/index.html'}/>
-        </View>
-        <View style={styles.slide}>
-          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/24/index.html'}/>
-        </View> */}
         <View style={styles.slide}>
           <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/dinosaur1/index.html'}/>
         </View>
-        {/* <View style={styles.slide}>
-          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/2/index.html'}/>
-        </View> */}
       </Swiper>
     );
   }
 }
 
-// function AfterLoadWebView(){
-//   document.querySelector('.landing').click();
-// }
-
 class CusormWebView extends Component{
   constructor(props){
     super(props);
     this.state = {
-      curURL:''
+      active:false
     }
   }
-  
   render(){
     var tShowURL = this.props.showURL;
-    let WhenLoadWebView = ()=>{
-      //var e = document.createEvent('MouseEvents'); e.initEvent('click', true, true);document.querySelector('.landing').dispatchEvent(e);
-      window.prefetchedData["embedOptions"] = {"preload": true,"autostart": true}
-    }
+    // let WhenLoadWebView = ()=>{
+    //   //var e = document.createEvent('MouseEvents'); e.initEvent('click', true, true);document.querySelector('.landing').dispatchEvent(e);
+    //   window.prefetchedData["embedOptions"] = {"preload": true,"autostart": true}
+    // }
+    // var injectJavaScript = this.props.injectJavaScript;
+    // let WhenChangeWebViewPage = ()=>{
+    //   alert("找到了");
+    // }
     let BeforeLoadWebView = ""//'window.prefetchedData["embedOptions"] = {"preload": true,"autostart": true}';
     //+"var e = document.createEvent('MouseEvents'); e.initEvent('click', true, true);document.querySelector('.landing').dispatchEvent(e);"
     //+"var a = setTimeout(function() {var e = document.createEvent('MouseEvents'); e.initEvent('click', true, true);document.querySelector('.icon-ion-close-round-icon').dispatchEvent(e);},100);";
@@ -126,10 +120,10 @@ class CusormWebView extends Component{
           <WebView 
           source={{uri: tShowURL}}
           mediaPlaybackRequiresUserAction={false}
-          //ref={webview => {this.myWebview = webview;}} 
-          //onLoadStart={()=>{
-          //   this.myWebview.injectJavaScript(BeforeLoadWebView);
-          //}}
+          //ref={webview => {this.myWebview = webview;this.myWebview.injectJavaScript=injectJavaScript}} 
+          // onLoadStart={()=>{
+          //    this.myWebview.injectJavaScript(WhenChangeWebViewPage);
+          // }}
           injectedJavaScript={BeforeLoadWebView}
           style={{width:'100%',height:'100%'}}/>
         </View>
