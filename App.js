@@ -2,6 +2,7 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  * @flow
+ * 
  */
 
 import React, { Component } from 'react';
@@ -18,6 +19,7 @@ import {
 } from 'react-native';
 import { Immersive } from 'react-native-immersive'
 import Swiper from 'react-native-swiper';
+//import { Worker } from 'react-native-workers';
 
 const styles = StyleSheet.create({
   radiasTouchButton:{
@@ -43,6 +45,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width:'100%',
+    height:'100%',
   },
   text: {
     color: '#fff',
@@ -55,12 +59,13 @@ export default class App extends Component/*<Props>*/ {
   render() {
     return (
       Immersive.on(),
-      //WebViewbase
+      //<WebView source={{uri:'file:///android_asset/web/index.html'}}/>
+      //<WebView source={{uri:'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}}/>
       <SwiperView />
     );
   }
 }
-var webviewRefs = [];
+//var webviewRefs = [];
 class SwiperView extends Component{
   constructor(props){
     super(props);
@@ -79,15 +84,16 @@ class SwiperView extends Component{
       //(func)=>{this.myWebview.injectJavaScript(func);}
     }
     return(
+      
       <Swiper style={styles.wrapper} showsButtons={true} scrollEnabled={false} showsPagination={false} onIndexChanged={onPressButton}>
         <View style={styles.slide}>
           <CusormWebView showURL={'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}/>
         </View>
         <View style={styles.slide}>
-          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/2072ffd0baee400794af828092aac49a/index.html'}/>
+          <CusormWebView showURL={'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}/>
         </View>
         <View style={styles.slide}>
-          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/dinosaur1/index.html'}/>
+          <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/2072ffd0baee400794af828092aac49a/index.html'}/>
         </View>
       </Swiper>
     );
@@ -98,7 +104,7 @@ class CusormWebView extends Component{
   constructor(props){
     super(props);
     this.state = {
-      active:false
+      url:""
     }
   }
   render(){
