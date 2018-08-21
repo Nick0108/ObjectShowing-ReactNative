@@ -53,19 +53,30 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
+  buttonText: {
+    fontSize: 50,
+    color: 'grey',
+    fontFamily: 'Arial'
+  }
 });
+
+var LoacalURLs = new Array(
+  "file:///android_asset/web/Benz/index.html"
+  ,"file:///android_asset/web/einvite/index.html"
+  ,"https://gz.kangyun3d.com/projects/VRfullvideo/"
+);
+
+var CurIndex = 0;
 
 export default class App extends Component/*<Props>*/ {
   render() {
     return (
       Immersive.on(),
-      //<WebView source={{uri:'file:///android_asset/web/index.html'}}/>
-      //<WebView source={{uri:'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}}/>
+      Immersive.setImmersive(true),
       <SwiperView />
     );
   }
 }
-//var webviewRefs = [];
 class SwiperView extends Component{
   constructor(props){
     super(props);
@@ -74,27 +85,46 @@ class SwiperView extends Component{
     }
   }
   render(){
-    onPressButton = (index)=>{
-      // var str = '';
-      // for(var i=0;i<webviewRefs.length;i++){
-      //   str += typeof(webviewRefs[i])+",";
-      // }
-      // alert(str);
-      // webviewRefs[index].injectJavaScript();
-      //(func)=>{this.myWebview.injectJavaScript(func);}
+    onPressPrevButton = ()=>{
+      CurIndex--;
+      if(CurIndex<0){
+        CurIndex=LoacalURLs.length-1;
+      }
+      //alert(CurIndex +"==="+LoacalURLs[CurIndex]);
+      this.refs.MyWebView.setState({
+        mCurURl:LoacalURLs[CurIndex]
+      });
+    }
+    onPressNextButton =()=>{
+      CurIndex++;
+      if(CurIndex>=LoacalURLs.length){
+        CurIndex=0;
+      }
+      //alert(CurIndex +"==="+LoacalURLs[CurIndex]);
+      this.refs.MyWebView.setState({
+        mCurURl:LoacalURLs[CurIndex]
+      });
     }
     return(
-      
-      <Swiper style={styles.wrapper} showsButtons={true} scrollEnabled={false} showsPagination={false} onIndexChanged={onPressButton}>
+      <Swiper 
+      style={styles.wrapper} 
+      showsButtons={true} 
+      prevButton={<Text style={styles.buttonText}
+                        onPress={onPressPrevButton}>‹</Text>} 
+      nextButton={<Text style={styles.buttonText}
+                        onPress={onPressNextButton}>›</Text>} 
+      scrollEnabled={false} 
+      //onIndexChanged={onPressButton}
+      showsPagination={false}>
         <View style={styles.slide}>
-          <CusormWebView showURL={'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}/>
+          <CusormWebView ref={"MyWebView"}/>
         </View>
-        <View style={styles.slide}>
+        {/* <View style={styles.slide}>
           <CusormWebView showURL={'http://gz.kangyun3d.com/projects/a9ba3279488e4cc28cbd998d56442b6d/'}/>
         </View>
         <View style={styles.slide}>
           <CusormWebView showURL={'https://gz.kangyun3d.com/models/models/2072ffd0baee400794af828092aac49a/index.html'}/>
-        </View>
+        </View> */}
       </Swiper>
     );
   }
@@ -104,11 +134,13 @@ class CusormWebView extends Component{
   constructor(props){
     super(props);
     this.state = {
-      url:""
+        mCurURl:LoacalURLs[CurIndex]
     }
+    //this.Onlywebview=React.createRef();
   }
+
   render(){
-    var tShowURL = this.props.showURL;
+    var tShowURL = this.state.mCurURl;
     // let WhenLoadWebView = ()=>{
     //   //var e = document.createEvent('MouseEvents'); e.initEvent('click', true, true);document.querySelector('.landing').dispatchEvent(e);
     //   window.prefetchedData["embedOptions"] = {"preload": true,"autostart": true}
@@ -124,13 +156,16 @@ class CusormWebView extends Component{
       <View style={{width:'100%',height:'100%'}}>
         <View style={{width:'100%',height:'100%'}}>
           <WebView 
+          ref={"Onlywebview"}
+          scrollEnabled = {false}
           source={{uri: tShowURL}}
           mediaPlaybackRequiresUserAction={false}
-          //ref={webview => {this.myWebview = webview;this.myWebview.injectJavaScript=injectJavaScript}} 
-          // onLoadStart={()=>{
-          //    this.myWebview.injectJavaScript(WhenChangeWebViewPage);
-          // }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
           injectedJavaScript={BeforeLoadWebView}
+          allowUniversalAccessFromFileURLs={true}
+          geolocationEnabled={true}
+          allowsInlineMediaPlayback={true}
           style={{width:'100%',height:'100%'}}/>
         </View>
       </View>
